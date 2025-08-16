@@ -1,0 +1,77 @@
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  FaUserCheck,
+  FaBullhorn,
+  FaBell,
+  FaUserCircle,
+  FaSignOutAlt,
+} from "react-icons/fa";
+
+export default function StudentDashboard() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    sessionStorage.clear();
+    navigate("/");
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 text-gray-800 p-6">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold text-blue-700">
+          Student Dashboard
+        </h1>
+        <button
+          onClick={handleLogout}
+          className="bg-red-500 hover:bg-red-600 text-white flex items-center gap-2 px-4 py-2 rounded-lg shadow-md transition-all duration-200"
+        >
+          <FaSignOutAlt /> Logout
+        </button>
+      </div>
+
+      {/* Dashboard Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Card 1 */}
+        <Link to = "/student/attendance">
+          <div className="bg-white border border-gray-200 p-6 rounded-xl shadow hover:shadow-lg transition cursor-pointer flex flex-col items-center text-center hover:scale-[1.02]">
+            <FaUserCheck className="text-5xl mb-4 text-blue-600" />
+            <h2 className="text-blue-700 font-semibold text-lg">Attendance</h2>
+            <p className="text-gray-500 text-sm">
+              View and track your attendance easily
+            </p>
+          </div>
+        </Link>
+
+        {/* Card 2 */}
+        <div className="bg-white border border-gray-200 p-6 rounded-xl shadow hover:shadow-lg transition cursor-pointer flex flex-col items-center text-center hover:scale-[1.02]">
+          <FaBullhorn className="text-5xl mb-4 text-green-600" />
+          <h2 className="text-green-700 font-semibold text-lg">Announcement</h2>
+          <p className="text-gray-500 text-sm">
+            Stay updated with the latest events
+          </p>
+        </div>
+
+        {/* Card 3 */}
+        <div className="bg-white border border-gray-200 p-6 rounded-xl shadow hover:shadow-lg transition cursor-pointer flex flex-col items-center text-center hover:scale-[1.02]">
+          <FaBell className="text-5xl mb-4 text-yellow-500" />
+          <h2 className="text-yellow-600 font-semibold text-lg">Notice</h2>
+          <p className="text-gray-500 text-sm">
+            Important updates and alerts for you
+          </p>
+        </div>
+
+        {/* Card 4 */}
+        <div className="bg-white border border-gray-200 p-6 rounded-xl shadow hover:shadow-lg transition cursor-pointer flex flex-col items-center text-center hover:scale-[1.02]">
+          <FaUserCircle className="text-5xl mb-4 text-purple-600" />
+          <h2 className="text-purple-700 font-semibold text-lg">Details</h2>
+          <p className="text-gray-500 text-sm">
+            View your profile and academic details
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
