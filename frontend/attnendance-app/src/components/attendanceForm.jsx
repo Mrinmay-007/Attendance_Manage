@@ -1,20 +1,8 @@
 
 
-import { useNavigate ,Link} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { apiFetch } from "./api";
-import {
-  Container,
-  Paper,
-  Typography,
-  TextField,
-  Select,
-  MenuItem,
-  Button,
-  FormControl,
-  InputLabel,
-  Box
-} from "@mui/material";
 
 export default function AttendanceForm() {
   const navigate = useNavigate();
@@ -70,96 +58,101 @@ export default function AttendanceForm() {
   };
 
   return (
-    //<Link to = ''>
-    <Container maxWidth="sm" sx={{ mt: 5 }}>
-      <Paper elevation={3} sx={{ p: 4 }}>
-        <Typography variant="h4" fontWeight="bold" gutterBottom>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-6">
+      <div className="bg-slate-800 w-full max-w-lg p-8 rounded-2xl shadow-xl border border-slate-700">
+        <h1 className="text-2xl font-bold text-blue-400 mb-2">
           Attendance Form
-        </Typography>
-        <Typography variant="subtitle1" sx={{ mb: 2, color: "gray" }}>
-          Logged in as: {email}
-        </Typography>
+        </h1>
+        <p className="text-sm text-gray-400 mb-6">Logged in as: {email}</p>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="space-y-5">
           {/* Teacher ID */}
-          <TextField
-            fullWidth
-            label="Teacher ID"
-            value={formData.id}
-            InputProps={{ readOnly: true }}
-            sx={{ mb: 3 }}
-          />
+          <div>
+            <label className="block text-gray-300 mb-1">Teacher ID</label>
+            <input
+              type="text"
+              value={formData.id}
+              readOnly
+              className="w-full px-4 py-2 bg-slate-900 border border-slate-600 rounded-lg text-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            />
+          </div>
 
           {/* Department */}
-          <FormControl fullWidth sx={{ mb: 3 }}>
-            <InputLabel>Select Department</InputLabel>
-            <Select
+          <div>
+            <label className="block text-gray-300 mb-1">Select Department</label>
+            <select
               name="department"
               value={formData.department}
               onChange={handleChange}
+              className="w-full px-4 py-2 bg-slate-900 border border-slate-600 rounded-lg text-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             >
-              <MenuItem value="">Select Department</MenuItem>
+              <option value="">Select Department</option>
               {departments.map((dep) => (
-                <MenuItem key={dep.id} value={dep.id}>
+                <option key={dep.id} value={dep.id}>
                   {dep.dep}
-                </MenuItem>
+                </option>
               ))}
-            </Select>
-          </FormControl>
+            </select>
+          </div>
 
-          {/* Semester Dropdown */}
-          <FormControl fullWidth sx={{ mb: 3 }}>
-            <InputLabel>Select Semester</InputLabel>
-            <Select
+          {/* Semester */}
+          <div>
+            <label className="block text-gray-300 mb-1">Select Semester</label>
+            <select
               name="semester"
               value={formData.semester}
               onChange={handleChange}
+              className="w-full px-4 py-2 bg-slate-900 border border-slate-600 rounded-lg text-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             >
-              <MenuItem value="">Select Semester</MenuItem>
+              <option value="">Select Semester</option>
               {[...Array(8)].map((_, i) => (
-                <MenuItem key={i + 1} value={i + 1}>
-                  {i + 1}
-                </MenuItem>
+                <option key={i + 1} value={i + 1}>
+                  Semester {i + 1}
+                </option>
               ))}
-            </Select>
-          </FormControl>
+            </select>
+          </div>
 
           {/* Subject */}
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <InputLabel>Select Subject</InputLabel>
-            <Select
+          <div>
+            <label className="block text-gray-300 mb-1">Select Subject</label>
+            <select
               name="subject"
               value={formData.subject}
               onChange={handleChange}
+              className="w-full px-4 py-2 bg-slate-900 border border-slate-600 rounded-lg text-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             >
-              <MenuItem value="">Select Subject</MenuItem>
+              <option value="">Select Subject</option>
               {subjects.map((sub) => (
-                <MenuItem key={sub.id} value={sub.id}>
+                <option key={sub.id} value={sub.id}>
                   {sub.subject}
-                </MenuItem>
+                </option>
               ))}
-            </Select>
-          </FormControl>
+            </select>
+          </div>
 
           {/* Buttons */}
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Button
-              variant="outlined"
-              color="error"
+          <div className="flex justify-between">
+            <button
+              type="button"
               onClick={() => {
                 localStorage.clear();
                 navigate("/");
               }}
+              className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg text-white font-medium shadow"
             >
               Logout
-            </Button>
-            <Button type="submit" variant="contained" color="primary">
+            </button>
+            <button
+              type="submit"
+              className="px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-medium shadow"
+            >
               Next
-            </Button>
-          </Box>
+            </button>
+          </div>
         </form>
-      </Paper>
-    </Container>
-     //<Link/> 
+      </div>
+    </div>
   );
 }
+

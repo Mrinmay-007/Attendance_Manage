@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
-from datetime import date as date_type
+from datetime import date 
 import models, schemas
 from db import get_db
 
@@ -39,4 +39,68 @@ def add_attendance(attn: schemas.Attendance , db: Session = Depends(get_db)):
     }
     
 
+@router.get("/")
+async def get_attendance(stid: int, dt: date, db: Session = Depends(get_db)):
+    attn = (
+        db.query(
+            models.Attendance,
+            models.Student.name,
+            models.Student.u_roll,
+            models.Student.c_roll,
+            # models.Subject.sub_name 
+        )
+        .join(models.Student, models.Attendance.Sid == models.Student.Sid)
+        # .join(models.Subject, models.Attendance.STid == models.Subject.STid)
+        .filter(
+            models.Attendance.STid == stid,
+            models.Attendance.date == dt
+        )
+        .all()
+    )
 
+    return [
+        {
+            "id": at.Attendance.A_id,
+            "date": at.Attendance.date,
+            "name": at.name,
+            "u_roll": at.u_roll,
+            "c_roll": at.c_roll,
+            # "subject": at.sub_name,  
+            "status": at.Attendance.status
+        }
+        for at in attn
+    ]
+
+
+# @router.put("/{id}")
+# def edit_attendance(id: int, new_status: str, db: Session = Depends(get_db)):
+#     attendance = db.query(models.Attendance).filter(models.Attendance.A_id == id).first()
+#     if attendance is None:
+#         raise HTTPException(status_code=404, detail="Attendance record not found")
+#     attendance.status = new_status #type:ignore
+#     db.commit()
+#     # db.refresh(attendance)
+#     return {
+#         "id": attendance.A_id,
+#         "date": attendance.date,
+#         "status": attendance.status
+#     }
+    
+    
+
+
+
+
+@router.put("/{id}")
+async def edit_attendance(id: int, update: schemas.AttendanceUpdate, db: Session = Depends(get_db)):
+    attendance = db.query(models.Attendance).filter(models.Attendance.A_id == id).first()
+    if attendance is None:
+        raise HTTPException(status_code=404, detail="Attendance record not found")
+
+    attendance.status = update.new_status  # type:ignore
+    db.commit()
+    return {
+        "id": attendance.A_id,
+        "date": attendance.date,
+        "status": attendance.status
+    }

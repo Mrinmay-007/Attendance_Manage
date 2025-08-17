@@ -124,7 +124,8 @@ class Attendance(BaseModel):
 #     class Config:
 #         orm_mode = True
 
-
+class AttendanceUpdate(BaseModel):
+    new_status: str
 
 # ==============================================
 #    Authentication

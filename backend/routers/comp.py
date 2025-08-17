@@ -11,6 +11,51 @@ from urllib.parse import unquote
 router = APIRouter()
 
 
+@router.get("/attendance_history/{email}")
+def attn_hist(email: str, db: Session = Depends(get_db)):
+    results = (
+        db.query(
+            Attendance.STid,
+            Attendance.date,
+            Department.dep.label("department"),
+            Subject.sub_name.label("subject"),
+            Subject.sub_code.label("code"),
+            Subject.year,
+            Subject.sem
+        )
+        .join(SubjectTeacher, Attendance.STid == SubjectTeacher.STid)
+        .join(Teacher, SubjectTeacher.Tid == Teacher.Tid)
+        .join(Subject, SubjectTeacher.Sub_id == Subject.Sub_id)
+        .join(Department, Subject.Did == Department.Did)
+        .filter(Teacher.email == email)
+        .distinct()
+        .order_by(Attendance.date.desc())
+        .all()
+    )
+
+    return [
+        {
+            "STid": r[0],
+            "date": r[1],
+            "department": r[2],
+            "subject": r[3],
+            "code": r[4],
+            "year": r[5],
+            "sem": r[6],
+        }
+        for r in results
+    ]
+
+
+
+
+
+
+
+    
+    
+
+
 @router.get("/teacher_details/{email}")
 async def teacher_details(email: str, db: Session = Depends(get_db)):
     teacher = db.query(models.Teacher).filter(models.Teacher.email == email).first()
@@ -48,8 +93,6 @@ async def reset_pw(email: str, body: schemas.ResetPwRequest, db: Session = Depen
     user.pw = Hash.bcrypt(body.new_pw)  #type: ignore
     db.commit()
     return {"message": "Password updated successfully"}
-
-
 
 
 @router.get("/student_attendance/{email}")
@@ -215,7 +258,6 @@ def get_student_list(did:int,sem:int, response: Response, db: Session = Depends(
     return results
     
         
-    
 @router.get("/teacher_list")
 def get_teacher_list(response: Response, db: Session = Depends(get_db)):
     teachers = db.query(models.Teacher).filter(models.Department.role == "Teacher").all()

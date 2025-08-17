@@ -76,17 +76,3 @@ const handleSubmit = async (e) => {
 
 
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const res = await apiFetch(`/reset_password/${email}}`, {
-  //       method: "PUT",
-  //     });
-  //     setMessage(res.message || "Password updated successfully!");
-  //     setOldPw("");
-  //     setNewPw("");
-  //   } catch (err) {
-  //     console.error(err);
-  //     setMessage("Error resetting password");
-  //   }
-  // }
