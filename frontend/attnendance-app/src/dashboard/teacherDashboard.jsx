@@ -7,6 +7,7 @@ import {
   FaBell,
   FaUserCircle,
 } from "react-icons/fa";
+import { LuCalendarClock } from "react-icons/lu";
 
 export default function TeacherDashboard() {
 
@@ -35,24 +36,24 @@ export default function TeacherDashboard() {
         </Link>
 
         {/* Card 2 */}
-        <div className="bg-[#1c2541] p-6 rounded-xl shadow-md hover:shadow-xl hover:scale-[1.02] transition-all cursor-pointer flex flex-col items-center text-center border border-gray-700">
-          <FaBullhorn className="text-6xl mb-4 text-yellow-400" />
+        {/* <div className="bg-[#1c2541] p-6 rounded-xl shadow-md hover:shadow-xl hover:scale-[1.02] transition-all cursor-pointer flex flex-col items-center text-center border border-gray-700">
+          <LuCalendarClock className="text-6xl mb-4 text-yellow-400" />
           <h2 className="text-yellow-300 font-semibold text-lg">
-            Announcement
+            Routine
           </h2>
           <p className="text-gray-400 text-sm">
             Post and share important updates
           </p>
-        </div>
+        </div> */}
 
         {/* Card 3 */}
-        <div className="bg-[#1c2541] p-6 rounded-xl shadow-md hover:shadow-xl hover:scale-[1.02] transition-all cursor-pointer flex flex-col items-center text-center border border-gray-700">
+        {/* <div className="bg-[#1c2541] p-6 rounded-xl shadow-md hover:shadow-xl hover:scale-[1.02] transition-all cursor-pointer flex flex-col items-center text-center border border-gray-700">
           <FaBell className="text-6xl mb-4 text-green-400" />
           <h2 className="text-green-300 font-semibold text-lg">Notice</h2>
           <p className="text-gray-400 text-sm">
             View and send important notices
           </p>
-        </div>
+        </div> */}
 
         {/* Card 4 */}
         <Link to="/teacher/details">
