@@ -112,6 +112,7 @@ class Attendance(BaseModel):
 
     class Config:
         orm_mode = True
+        
 
 # class Routine(BaseModel):
 #     r_id: Optional[int] = None
@@ -141,7 +142,10 @@ class TokenData(BaseModel):
 class Token(BaseModel):
     access_token: str
     token_type: str
-
+    
+class ResetPwRequest(BaseModel):
+    old_pw: str
+    new_pw: str
 # ===============..... Done .....====================
 
 

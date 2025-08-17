@@ -130,3 +130,4 @@ class Attendance(Base):
     __table_args__ = (
         UniqueConstraint('STid', 'Sid', 'date', name='uq_attendance'),
     )
+

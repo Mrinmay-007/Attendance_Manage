@@ -40,4 +40,3 @@ def add_attendance(attn: schemas.Attendance , db: Session = Depends(get_db)):
     
 
 
-    

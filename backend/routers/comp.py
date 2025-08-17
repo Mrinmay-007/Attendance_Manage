@@ -4,11 +4,52 @@ from sqlalchemy.orm import Session
 import schemas,models
 from models import Teacher,Department,SubjectTeacher,Subject,Student,Attendance
 from db import get_db
-
+from methods.hashing import Hash
 from sqlalchemy import func, case
 from urllib.parse import unquote
 
 router = APIRouter()
+
+
+@router.get("/teacher_details/{email}")
+async def teacher_details(email: str, db: Session = Depends(get_db)):
+    teacher = db.query(models.Teacher).filter(models.Teacher.email == email).first()
+    if teacher is None:
+        raise HTTPException(status_code=404, detail="Teacher not found")
+
+
+    sub_tch = db.query(models.SubjectTeacher).filter(models.SubjectTeacher.Tid == teacher.Tid).all()
+
+    sub_ids = [st.Sub_id for st in sub_tch]
+    subjects = db.query(models.Subject).filter(models.Subject.Sub_id.in_(sub_ids)).all()
+
+    dept_ids = [s.Did for s in subjects]
+    departments = db.query(models.Department).filter(models.Department.Did.in_(dept_ids)).all()
+
+    
+    
+    return {
+        "teacher": teacher,
+        "subjects": subjects,
+        "departments": departments,
+    }
+
+@router.put("/reset_password/{email}")
+async def reset_pw(email: str, body: schemas.ResetPwRequest, db: Session = Depends(get_db)):
+    user = db.query(models.Teacher).filter(models.Teacher.email == email).first()
+    if not user:
+        user = db.query(models.Student).filter(models.Student.email == email).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Email not found")
+
+    if not Hash.verify(user.pw, body.old_pw):  #type: ignore
+        raise HTTPException(status_code=400, detail="Old password is incorrect")
+
+    user.pw = Hash.bcrypt(body.new_pw)  #type: ignore
+    db.commit()
+    return {"message": "Password updated successfully"}
+
+
 
 
 @router.get("/student_attendance/{email}")

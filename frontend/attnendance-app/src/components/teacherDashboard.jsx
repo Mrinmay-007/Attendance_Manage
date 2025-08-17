@@ -1,34 +1,22 @@
-
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Logout from "./logout";
 import {
   FaUserCheck,
   FaBullhorn,
   FaBell,
   FaUserCircle,
-  FaSignOutAlt,
 } from "react-icons/fa";
 
 export default function TeacherDashboard() {
-  const navigate = useNavigate();
 
-  const handleLogout = () => {
-    localStorage.clear();
-    sessionStorage.clear();
-    navigate("/");
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0b132b] via-[#1c2541] to-[#0b132b] text-white p-6">
       {/* Header */}
       <div className="flex justify-between items-center mb-10 border-b border-gray-700 pb-4">
         <h1 className="text-3xl font-bold tracking-wide">Teacher Dashboard</h1>
-        <button
-          onClick={handleLogout}
-          className="bg-red-500 hover:bg-red-600 text-white flex items-center gap-2 px-5 py-2 rounded-lg shadow-md transition-all duration-200"
-        >
-          <FaSignOutAlt /> Logout
-        </button>
+        <Logout/>
       </div>
 
       {/* Dashboard Grid */}
@@ -67,13 +55,15 @@ export default function TeacherDashboard() {
         </div>
 
         {/* Card 4 */}
-        <div className="bg-[#1c2541] p-6 rounded-xl shadow-md hover:shadow-xl hover:scale-[1.02] transition-all cursor-pointer flex flex-col items-center text-center border border-gray-700">
-          <FaUserCircle className="text-6xl mb-4 text-purple-400" />
-          <h2 className="text-purple-300 font-semibold text-lg">Details</h2>
-          <p className="text-gray-400 text-sm">
-            View teacher profile and class details
-          </p>
-        </div>
+        <Link to="/teacher/details">
+          <div className="bg-[#1c2541] p-6 rounded-xl shadow-md hover:shadow-xl hover:scale-[1.02] transition-all cursor-pointer flex flex-col items-center text-center border border-gray-700">
+            <FaUserCircle className="text-6xl mb-4 text-purple-400" />
+            <h2 className="text-purple-300 font-semibold text-lg">Details</h2>
+            <p className="text-gray-400 text-sm">
+              View teacher profile and class details
+            </p>
+          </div>
+        </Link>
       </div>
     </div>
   );

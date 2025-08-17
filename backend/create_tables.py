@@ -1,7 +1,7 @@
 # create_tables.py
 from db import engine, Base, SessionLocal
 import models
-from repository.methods.hashing import Hash
+from methods.hashing import Hash
 import json
 
 

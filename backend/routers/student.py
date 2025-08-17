@@ -7,7 +7,7 @@ from models import Student
 from db import get_db
 
 import json
-from repository.methods.hashing import Hash
+from methods.hashing import Hash
 router = APIRouter(
     prefix="/student",
     tags=["Student"]

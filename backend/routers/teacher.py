@@ -5,7 +5,7 @@ import schemas,models
 from models import Teacher
 from db import get_db
 import json
-from repository.methods.hashing import Hash
+from methods.hashing import Hash
 
 
 
@@ -172,5 +172,6 @@ async def get_teacher(id: int, db: Session = Depends(get_db)):
         "email": tch.email,
         "role": dept.role
     }
+
 
 

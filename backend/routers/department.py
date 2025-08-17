@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 import schemas,models
 from models import Department
 from db import get_db
-from repository.methods.oauth2 import get_current_student,get_current_faculty,get_current_admin
+from methods.oauth2 import get_current_student,get_current_faculty,get_current_admin
 
 
 router = APIRouter(

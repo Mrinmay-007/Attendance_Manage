@@ -1,7 +1,7 @@
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 
-from repository.methods import token
+from methods import token
 
 oauth2_scheme_student = OAuth2PasswordBearer(tokenUrl="login_student")
 oauth2_scheme_faculty = OAuth2PasswordBearer(tokenUrl="login_faculty")
