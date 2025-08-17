@@ -20,7 +20,7 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import { apiFetch } from "./api";
+import { apiFetch } from "../api";
 
 export default function ShowAttendance() {
   const navigate = useNavigate();

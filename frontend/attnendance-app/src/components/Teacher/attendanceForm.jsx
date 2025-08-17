@@ -2,7 +2,7 @@
 
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { apiFetch } from "./api";
+import { apiFetch } from "../api";
 
 export default function AttendanceForm() {
   const navigate = useNavigate();

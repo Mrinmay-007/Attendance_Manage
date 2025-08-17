@@ -1,8 +1,8 @@
 
 
 import { useEffect, useState } from "react";
-import { apiFetch } from "./api";
-import Logout from "./logout";
+import { apiFetch } from "../api";
+import Logout from "../logout";
 
 export default function Info() {
   const [teacher, setTeacher] = useState(null);

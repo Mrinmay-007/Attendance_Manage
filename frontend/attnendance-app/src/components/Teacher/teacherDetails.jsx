@@ -1,8 +1,8 @@
 
 import { Link, useNavigate } from "react-router-dom";
-import Logout from "./logout";
+import Logout from "../logout";
 import { useEffect, useState } from "react";
-import { apiFetch } from "./api";
+import { apiFetch } from "../api";
 
 export default function Details() {
   const [history, setHistory] = useState([]);

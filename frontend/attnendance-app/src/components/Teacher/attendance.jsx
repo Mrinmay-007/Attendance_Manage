@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { apiFetch } from "./api";
+import { apiFetch } from "../api";
 import {
   Container,
   Paper,
@@ -74,7 +74,8 @@ export default function Attendance() {
 
     try {
       await Promise.all(requests);
-      alert("Attendance submitted successfully!");
+      // alert("Attendance submitted successfully!");
+      navigate("/teacher/details")
     } catch (err) {
       console.error(err);
       alert("Error submitting attendance");

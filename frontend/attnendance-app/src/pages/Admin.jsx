@@ -5,12 +5,12 @@ import simpleRestProvider from 'ra-data-simple-rest';
 import { fetchUtils } from 'react-admin';
 
 // Import your resources
-import { get_Dept, create_Dept, edit_Dept } from '../components/department';
-import { get_Slot, create_Slot, edit_Slot } from '../components/slot';
-import { get_Teacher, create_Teacher, edit_Teacher } from '../components/teacher';
-import { get_Subject, create_Subject, edit_Subject } from '../components/subject';
-import { get_Student, create_Student, edit_Student } from '../components/student';
-import { get_SubTeacher, create_SubTeacher, edit_SubTeacher } from '../components/sub_teacher';
+import { get_Dept, create_Dept, edit_Dept } from '../components/Admin/department';
+import { get_Slot, create_Slot, edit_Slot } from '../components/Admin/slot';
+import { get_Teacher, create_Teacher, edit_Teacher } from '../components/Admin/teacher';
+import { get_Subject, create_Subject, edit_Subject } from '../components/Admin/subject';
+import { get_Student, create_Student, edit_Student } from '../components/Admin/student';
+import { get_SubTeacher, create_SubTeacher, edit_SubTeacher } from '../components/Admin/sub_teacher';
 import authProvider from '../auth/authProvider';
 import Login from './Login'; // Import your custom login page
 

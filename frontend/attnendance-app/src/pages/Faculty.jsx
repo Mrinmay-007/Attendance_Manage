@@ -3,13 +3,15 @@ import React from "react";
 
 
 import { Routes, Route } from "react-router-dom";
-import AttendanceForm from "../components/attendanceForm";
-import Attendance from "../components/attendance";
-import TeacherDashboard  from "../components/teacherDashboard";
-import Details  from "../components/teacherDetails";
-import Info  from "../components/teacherInfo";
+import TeacherDashboard  from "../dashboard/teacherDashboard";
+
+import AttendanceForm from "../components/Teacher/attendanceForm";
+import Attendance from "../components/Teacher/attendance";
+import Details  from "../components/Teacher/teacherDetails";
+import Info  from "../components/Teacher/teacherInfo";
+import EditAttendance from "../components/Teacher/editAttendance";
+
 import ResetPassword  from "../components/resetPw";
-import EditAttendance from "../components/editAttendance";
 export default function Teacher() {
   return (
     <div>

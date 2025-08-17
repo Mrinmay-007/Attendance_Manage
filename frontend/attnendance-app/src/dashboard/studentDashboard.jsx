@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Logout from "../components/logout";
 import {
   FaUserCheck,
   FaBullhorn,
@@ -11,11 +12,6 @@ import {
 export default function StudentDashboard() {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    localStorage.clear();
-    sessionStorage.clear();
-    navigate("/");
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 text-gray-800 p-6">
@@ -24,12 +20,9 @@ export default function StudentDashboard() {
         <h1 className="text-3xl font-bold text-blue-700">
           Student Dashboard
         </h1>
-        <button
-          onClick={handleLogout}
-          className="bg-red-500 hover:bg-red-600 text-white flex items-center gap-2 px-4 py-2 rounded-lg shadow-md transition-all duration-200"
-        >
-          <FaSignOutAlt /> Logout
-        </button>
+
+        <Logout/>
+
       </div>
 
       {/* Dashboard Grid */}
