@@ -1,7 +1,10 @@
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
-import AdminPanel from "./pages/Admin";
+
+import Admin from "./pages/Admin";
+import AdminPanel from "./components/Admin/Dashboard";
+
 import Student from "./pages/Student";
 import Teacher from "./pages/Faculty";
 import ProtectedRoute from "./auth/ProtectedRoute";
@@ -21,11 +24,10 @@ export default function App() {
           path="/admin/*"
           element={
             <ProtectedRoute allowedRole="admin">
-              <AdminPanel />
+              <Admin />
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/teacher/*"
           element={

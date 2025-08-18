@@ -15,7 +15,7 @@ export const create_SubTeacher = (props) => {
   const redirect = useRedirect();
   const onSuccess = (data) => {
         console.log("Subject Teacher created:", data);
-        redirect('/admin/sub_teacher');
+        redirect('/admin/dashboard/sub_teacher');
     };
   return (
     <Create {...props} mutationOptions={{ onSuccess }}>

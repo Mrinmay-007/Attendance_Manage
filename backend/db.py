@@ -3,8 +3,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
 # Replace with your actual DB details
-DATABASE_URL = "mysql+pymysql://root:0070100@localhost:3306/test_db"
-# DATABASE_URL = "mysql+pymysql://root:0070100@localhost:3306/attendance"
+# DATABASE_URL = "mysql+pymysql://root:0070100@localhost:3306/test_db"
+DATABASE_URL = "mysql+pymysql://root:0070100@localhost:3306/attendance"
 
 engine = create_engine(DATABASE_URL)
 

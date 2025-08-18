@@ -31,7 +31,7 @@ export const create_Slot = (props) => {
     
     const onSuccess = (data) => {
         console.log("Slot created:", data);
-        redirect("/admin/slot");
+        redirect("/admin/dashboard/slot");
       };
 
     // helper function to normalize to HH:mm

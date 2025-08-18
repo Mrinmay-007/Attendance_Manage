@@ -40,7 +40,7 @@ export const create_Student = (props) => {
 
   const onSuccess = (data) => {
     console.log("Student created:", data);
-    redirect("/admin/student");
+    redirect("/admin/dashboard/student");
   };
 
   const transform = (data) => {

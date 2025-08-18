@@ -32,7 +32,7 @@ export const create_Subject = (props) => {
 
   const onSuccess = (data) => {
     console.log("Subject created:", data);
-    redirect("/admin/subject");
+    redirect("/admin/dashboard/subject");
   };
 
     // Custom component to watch form values

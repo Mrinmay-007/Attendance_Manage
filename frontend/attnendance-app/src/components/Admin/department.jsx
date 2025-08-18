@@ -21,7 +21,7 @@ export const create_Dept = (props) => {
     const redirect = useRedirect();
 
     const onSuccess = () => {
-        redirect('/admin/department');
+        redirect('/admin/dashboard/department');
     };
 
     return (

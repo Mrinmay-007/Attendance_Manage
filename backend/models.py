@@ -2,7 +2,7 @@
 #  models.py
 
 
-from sqlalchemy import Column, Integer, String, ForeignKey, Time, Date, Enum, UniqueConstraint
+from sqlalchemy import Column, Integer, String, ForeignKey, Time, Date, Enum, UniqueConstraint, Text, CheckConstraint
 from sqlalchemy.orm import relationship
 from db import Base
 
@@ -17,7 +17,8 @@ class Department(Base):
     teachers = relationship("Teacher", back_populates="department", cascade="all, delete-orphan")
     students = relationship("Student", back_populates="department", cascade="all, delete-orphan")
     subjects = relationship("Subject", back_populates="department", cascade="all, delete-orphan")
-    routines = relationship("Routine", back_populates="department", cascade="all, delete-orphan")  # ✅ ADDED (Routine FK fix)
+    routines = relationship("Routine", back_populates="department", cascade="all, delete-orphan")  
+    notices = relationship("Notice", back_populates="department", cascade="all, delete-orphan")
 
 
 class Student(Base):
@@ -51,6 +52,7 @@ class Teacher(Base):
 
     department = relationship("Department", back_populates="teachers")
     subject_teacher = relationship("SubjectTeacher", back_populates="teacher", cascade="all, delete-orphan")
+    notices = relationship("Notice", back_populates="teacher", cascade="all, delete-orphan")
 
 
 class Subject(Base):
@@ -65,7 +67,7 @@ class Subject(Base):
     sem = Column(Integer, nullable=False)
 
     department = relationship("Department", back_populates="subjects")
-    subject_teachers = relationship("SubjectTeacher", back_populates="subject", cascade="all, delete-orphan")  # ✅ FIXED (back_populates match)
+    subject_teachers = relationship("SubjectTeacher", back_populates="subject", cascade="all, delete-orphan") 
 
 
 class SubjectTeacher(Base):
@@ -131,3 +133,34 @@ class Attendance(Base):
         UniqueConstraint('STid', 'Sid', 'date', name='uq_attendance'),
     )
 
+
+# class Notice(Base):
+#     __tablename__ = "Notice"
+    
+#     N_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    
+#     Tid = Column(Integer, ForeignKey("Teacher.Tid", ondelete="CASCADE"), nullable=False)
+#     Did = Column(Integer, ForeignKey("Department.Did", ondelete="CASCADE"), nullable=False)
+    
+   # content =  Text data
+   # file = image   (either content or file should not null)
+   
+   
+class Notice(Base):
+    __tablename__ = "Notice"
+
+    N_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+
+    Tid = Column(Integer, ForeignKey("Teacher.Tid", ondelete="CASCADE"), nullable=False)
+    Did = Column(Integer, ForeignKey("Department.Did", ondelete="CASCADE"), nullable=False)
+
+    content = Column(Text, nullable=True)
+    file = Column(String(255), nullable=True)  # store file path or filename
+
+    # Constraint: At least one of content or file must be non-null
+    __table_args__ = (
+        CheckConstraint("content IS NOT NULL OR file IS NOT NULL", name="check_content_or_file"),
+    )
+
+    teacher = relationship("Teacher", back_populates="notices")
+    department = relationship("Department", back_populates="notices")

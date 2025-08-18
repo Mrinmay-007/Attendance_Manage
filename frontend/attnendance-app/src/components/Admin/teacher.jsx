@@ -25,7 +25,7 @@ export const create_Teacher = (props) => {
 
     const onSuccess = (data) => {
         console.log("Teacher created:", data);
-        redirect('/admin/teacher');
+        redirect('/admin/dashboard/teacher');
     };
 
     const transform = (data) => {

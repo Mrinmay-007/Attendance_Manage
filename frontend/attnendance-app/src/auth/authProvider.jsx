@@ -1,4 +1,4 @@
-// src/authProvider.js
+
 const authProvider = {
   login: () => Promise.resolve(), // We handle login outside React Admin
   logout: () => {
