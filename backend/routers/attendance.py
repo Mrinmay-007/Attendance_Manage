@@ -72,25 +72,6 @@ async def get_attendance(stid: int, dt: date, db: Session = Depends(get_db)):
     ]
 
 
-# @router.put("/{id}")
-# def edit_attendance(id: int, new_status: str, db: Session = Depends(get_db)):
-#     attendance = db.query(models.Attendance).filter(models.Attendance.A_id == id).first()
-#     if attendance is None:
-#         raise HTTPException(status_code=404, detail="Attendance record not found")
-#     attendance.status = new_status #type:ignore
-#     db.commit()
-#     # db.refresh(attendance)
-#     return {
-#         "id": attendance.A_id,
-#         "date": attendance.date,
-#         "status": attendance.status
-#     }
-    
-    
-
-
-
-
 @router.put("/{id}")
 async def edit_attendance(id: int, update: schemas.AttendanceUpdate, db: Session = Depends(get_db)):
     attendance = db.query(models.Attendance).filter(models.Attendance.A_id == id).first()
@@ -104,3 +85,5 @@ async def edit_attendance(id: int, update: schemas.AttendanceUpdate, db: Session
         "date": attendance.date,
         "status": attendance.status
     }
+
+
