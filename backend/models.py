@@ -98,7 +98,7 @@ class Slot(Base):
     routines = relationship("Routine", back_populates="slot", cascade="all, delete-orphan")  # ✅ FIXED (Routine FK restore)
 
 
-class Routine(Base):  # ✅ ADDED back from commented version
+class Routine(Base):  
     __tablename__ = "Routine"
 
     R_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
