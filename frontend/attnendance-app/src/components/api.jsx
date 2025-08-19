@@ -1,3 +1,4 @@
+const API_BASE = import.meta.env.VITE_API_URL;
 
 
 export async function apiFetch(url, method = "GET", body = null) {
@@ -10,7 +11,8 @@ export async function apiFetch(url, method = "GET", body = null) {
     options.body = JSON.stringify(body);
   }
 
-  const res = await fetch(`http://localhost:8000${url}`, options);
+  const res = await fetch(`API_BASE${url}`, options);
+  // const res = await fetch(`http://localhost:8000${url}`, options);
 
   if (!res.ok) {
     throw new Error(`API error: ${res.status} ${res.statusText}`);
