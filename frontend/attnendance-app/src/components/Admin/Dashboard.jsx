@@ -17,7 +17,7 @@ const apiUrl = import.meta.env.VITE_API_URL;
 import authProvider from '../../auth/authProvider'
 import Login from '../../pages/Login'; // Import your custom login page
 
-// const apiUrl = `{API_BASE}`;
+// const apiUrl = "http://localhost:8000";
 
 const baseProvider = simpleRestProvider(apiUrl, fetchUtils.fetchJson);
 
