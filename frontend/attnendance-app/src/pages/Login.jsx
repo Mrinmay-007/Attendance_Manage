@@ -3,6 +3,7 @@
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+const API_BASE = import.meta.env.VITE_API_URL;
 import {
   Container,
   Box,
@@ -53,11 +54,11 @@ export default function Login() {
 
     let endpoint = "";
     if (role === "Admin") {
-      endpoint = "http://localhost:8000/login_admin";
+      endpoint = `${API_BASE}/login_admin`;
     } else if (role === "Teacher") {
-      endpoint = "http://localhost:8000/login_faculty";
+      endpoint = `${API_BASE}/login_faculty`;
     } else if (role === "Student") {
-      endpoint = "http://localhost:8000/login_student";
+      endpoint = `${API_BASE}/login_student`;
     }
 
     try {

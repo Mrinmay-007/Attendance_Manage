@@ -11,11 +11,13 @@ import { get_Teacher, create_Teacher, edit_Teacher } from './teacher';
 import { get_Subject, create_Subject, edit_Subject } from './subject';
 import { get_Student, create_Student, edit_Student } from './student';
 import { get_SubTeacher, create_SubTeacher, edit_SubTeacher } from './sub_teacher';
+
+const apiUrl = import.meta.env.VITE_API_URL;
 // import authProvider from '';
 import authProvider from '../../auth/authProvider'
 import Login from '../../pages/Login'; // Import your custom login page
 
-const apiUrl = "http://localhost:8000";
+// const apiUrl = `{API_BASE}`;
 
 const baseProvider = simpleRestProvider(apiUrl, fetchUtils.fetchJson);
 
