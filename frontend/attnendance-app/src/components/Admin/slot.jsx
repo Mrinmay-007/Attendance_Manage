@@ -68,12 +68,12 @@ export const create_Slot = (props) => {
           source="sl_name"
           parse={(value) => (value ? value.toUpperCase() : "")}
         />
-        <SelectInput
+        {/* <SelectInput
           source="day"
           choices={dayChoices}
           optionText="name"
           optionValue="id"
-        />
+        /> */}
       </SimpleForm>
     </Create>
   );
@@ -86,12 +86,12 @@ export const edit_Slot = (props) => (
       <TextInput source="id" disabled /> {/* id field (disabled) */}
       <TimeInput source="start" />
       <TimeInput source="end" />
-      <SelectInput
+      {/* <SelectInput
         source="day"
         optionText="name"
         optionValue="name"
         choices={dayChoices}
-        />
+        /> */}
       <TextInput
         source="sl_name"
         parse={(value) => (value ? value.toUpperCase() : "")} // Capitalize before send
@@ -107,7 +107,7 @@ export const get_Slot = () => (
       <DataTable.Col source="id" />
       <DataTable.Col source="start" />
       <DataTable.Col source="end" />
-      <DataTable.Col source="day" />
+      {/* <DataTable.Col source="day" /> */}
       <DataTable.Col source="sl_name" />
     </DataTable>
   </List>

@@ -9,6 +9,7 @@ import {
   HiOutlineSun,
   HiOutlineMoon,
 } from "react-icons/hi";
+import { RxGear } from "react-icons/rx";
 
 export default function AdminDashboard() {
   const [theme, setTheme] = useState(
@@ -92,13 +93,13 @@ export default function AdminDashboard() {
                 </h2>
               </div>
             </Link>
-            
-            {/* Details */}
-            <Link to="/admin/details" className="group">
+
+            {/* Settings */}
+            <Link to="/admin/settings" className="group">
               <div className="flex flex-col items-center justify-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 ease-in-out">
-                <HiOutlineDocumentText className="h-12 w-12 text-blue-600 dark:text-blue-500 mb-4" />
+                <RxGear className="h-12 w-12 text-blue-600 dark:text-blue-500 mb-4" />
                 <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-300">
-                  View Details
+                  Settings
                 </h2>
               </div>
             </Link>

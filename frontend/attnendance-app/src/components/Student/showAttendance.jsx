@@ -31,6 +31,7 @@ export default function ShowAttendance() {
     student: {
       name: "",
       email: "",
+      dep :"",
       u_roll: "",
       c_roll: "",
       year: "",
@@ -117,6 +118,7 @@ export default function ShowAttendance() {
           <Box sx={{ lineHeight: 2 }}>
             <Typography><strong>Name:</strong> {attendanceData.student.name}</Typography>
             <Typography><strong>Email:</strong> {attendanceData.student.email}</Typography>
+            <Typography><strong>Department:</strong> {attendanceData.student.dep}</Typography>
             <Typography><strong>University Roll:</strong> {attendanceData.student.u_roll}</Typography>
             <Typography><strong>Class Roll:</strong> {attendanceData.student.c_roll}</Typography>
             <Typography><strong>Year:</strong> {attendanceData.student.year}</Typography>

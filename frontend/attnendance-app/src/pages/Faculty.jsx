@@ -10,7 +10,7 @@ import Attendance from "../components/Teacher/attendance";
 import Details  from "../components/Teacher/teacherDetails";
 import Info  from "../components/Teacher/teacherInfo";
 import EditAttendance from "../components/Teacher/editAttendance";
-
+import Notice from "../components/notice";
 import ResetPassword  from "../components/resetPw";
 export default function Teacher() {
   return (
@@ -21,6 +21,7 @@ export default function Teacher() {
         <Route path="attendance" element={<Attendance />} />
         <Route path="edit_attendance" element={<EditAttendance />} />
         <Route path="details" element={<Details />} />
+        <Route path="notice" element={<Notice />} />
         <Route path="details/info" element={<Info />} />
         <Route path="details/reset-password" element={<ResetPassword />} />
       </Routes>

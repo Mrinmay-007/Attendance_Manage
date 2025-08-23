@@ -1,4 +1,5 @@
 
+
 import { Link, useNavigate } from "react-router-dom";
 import Logout from "../logout";
 import { useEffect, useState } from "react";
@@ -6,25 +7,41 @@ import { apiFetch } from "../api";
 
 export default function Details() {
   const [history, setHistory] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const email = localStorage.getItem("email");
   const navigate = useNavigate();
 
   useEffect(() => {
+    setIsLoading(true);
     apiFetch(`/attendance_history/${email}`)
-      .then((data) => setHistory(data))
-      .catch((err) => console.error(err));
+      .then((data) => {
+        setHistory(data || []);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setError("Failed to fetch attendance history");
+        setIsLoading(false);
+      });
   }, [email]);
 
-  if (!history.length)
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white text-xl">
         Loading...
       </div>
     );
+  }
 
-  const handleEdit = (row) => {
-    navigate("/teacher/edit_attendance", { state: row });
-  };
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-red-400 text-xl">
+        {error}
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-6 text-white">
@@ -63,44 +80,50 @@ export default function Details() {
           Attendance History
         </h3>
         <div className="overflow-x-auto">
-          <table className="min-w-full text-sm text-gray-300">
-            <thead>
-              <tr className="bg-slate-700 text-gray-200 text-left">
-                <th className="px-4 py-3">ID</th>
-                <th className="px-4 py-3">Date</th>
-                <th className="px-4 py-3">Department</th>
-                <th className="px-4 py-3">Subject</th>
-                <th className="px-4 py-3">Code</th>
-                <th className="px-4 py-3">Year</th>
-                <th className="px-4 py-3">Semester</th>
-                <th className="px-4 py-3 text-center">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {history.map((row, idx) => (
-                <tr
-                  key={idx}
-                  className="border-b border-slate-700 hover:bg-slate-700/50 transition"
-                >
-                  <td className="px-4 py-2">{row.STid}</td>
-                  <td className="px-4 py-2">{row.date}</td>
-                  <td className="px-4 py-2">{row.department}</td>
-                  <td className="px-4 py-2">{row.subject}</td>
-                  <td className="px-4 py-2">{row.code}</td>
-                  <td className="px-4 py-2">{row.year}</td>
-                  <td className="px-4 py-2">{row.sem}</td>
-                  <td className="px-4 py-2 text-center">
-                    <button
-                      onClick={() => handleEdit(row)}
-                      className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-1 rounded-lg shadow-md transition"
-                    >
-                      Edit
-                    </button>
-                  </td>
+          {history.length === 0 ? (
+            <div className="text-center text-gray-400 py-10">
+              No attendance history available.
+            </div>
+          ) : (
+            <table className="min-w-full text-sm text-gray-300">
+              <thead>
+                <tr className="bg-slate-700 text-gray-200 text-left">
+                  <th className="px-4 py-3">ID</th>
+                  <th className="px-4 py-3">Date</th>
+                  <th className="px-4 py-3">Department</th>
+                  <th className="px-4 py-3">Subject</th>
+                  <th className="px-4 py-3">Code</th>
+                  <th className="px-4 py-3">Year</th>
+                  <th className="px-4 py-3">Semester</th>
+                  <th className="px-4 py-3 text-center">Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {history.map((row, idx) => (
+                  <tr
+                    key={idx}
+                    className="border-b border-slate-700 hover:bg-slate-700/50 transition"
+                  >
+                    <td className="px-4 py-2">{row.STid}</td>
+                    <td className="px-4 py-2">{row.date}</td>
+                    <td className="px-4 py-2">{row.department}</td>
+                    <td className="px-4 py-2">{row.subject}</td>
+                    <td className="px-4 py-2">{row.code}</td>
+                    <td className="px-4 py-2">{row.year}</td>
+                    <td className="px-4 py-2">{row.sem}</td>
+                    <td className="px-4 py-2 text-center">
+                      <button
+                        onClick={() => navigate("/teacher/edit_attendance", { state: row })}
+                        className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-1 rounded-lg shadow-md transition"
+                      >
+                        Edit
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </div>

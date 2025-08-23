@@ -91,9 +91,12 @@ export default function Login() {
     }
   };
 
+
+
   return (
     <Container maxWidth="xs" sx={{ mt: 8 }}>
       <Paper elevation={4} sx={{ p: 4, borderRadius: 3 }}>
+     
         <Typography
           variant="h5"
           align="center"
@@ -157,6 +160,7 @@ export default function Login() {
                 </InputAdornment>
               ),
             }}
+
           />
 
           {/* Submit Button */}
@@ -172,6 +176,9 @@ export default function Login() {
           </Button>
         </Box>
       </Paper>
+      
+      <p>Keep patience ... it may take time to load</p>
+
     </Container>
   );
 }
