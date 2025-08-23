@@ -2,10 +2,10 @@
 #  models.py
 
 
-from sqlalchemy import Column, Integer, String, ForeignKey, Time, Date, Enum, UniqueConstraint, Text, CheckConstraint
+from sqlalchemy import Column, Integer, String, ForeignKey, Time, Date, DateTime, Enum, UniqueConstraint, Text, CheckConstraint,LargeBinary
 from sqlalchemy.orm import relationship
 from db import Base
-
+from datetime import datetime
 
 class Department(Base):
     __tablename__ = "Department"
@@ -94,7 +94,7 @@ class Slot(Base):
 
     start = Column(Time, nullable=False)
     end = Column(Time, nullable=False)
-    day = Column(Enum('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'), nullable=False, index=True)
+    # day = Column(Enum('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'), nullable=False, index=True)
     sl_name = Column(String(50), nullable=False, index=True)
 
     routines = relationship("Routine", back_populates="slot", cascade="all, delete-orphan")  # ✅ FIXED (Routine FK restore)
@@ -107,7 +107,8 @@ class Routine(Base):
     STid = Column(Integer, ForeignKey("SubjectTeacher.STid", ondelete="CASCADE"), nullable=False)
     Sl_id = Column(Integer, ForeignKey("Slot.Sl_id", ondelete="CASCADE"), nullable=False)
     Did = Column(Integer, ForeignKey("Department.Did", ondelete="CASCADE"), nullable=False)
-
+    day = Column(Enum('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'), nullable=False, index=True)
+    
     subject_teacher = relationship("SubjectTeacher", back_populates="routines")
     slot = relationship("Slot", back_populates="routines")
     department = relationship("Department", back_populates="routines")
@@ -134,16 +135,6 @@ class Attendance(Base):
     )
 
 
-# class Notice(Base):
-#     __tablename__ = "Notice"
-    
-#     N_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    
-#     Tid = Column(Integer, ForeignKey("Teacher.Tid", ondelete="CASCADE"), nullable=False)
-#     Did = Column(Integer, ForeignKey("Department.Did", ondelete="CASCADE"), nullable=False)
-    
-   # content =  Text data
-   # file = image   (either content or file should not null)
    
    
 class Notice(Base):
@@ -155,7 +146,10 @@ class Notice(Base):
     Did = Column(Integer, ForeignKey("Department.Did", ondelete="CASCADE"), nullable=False)
 
     content = Column(Text, nullable=True)
-    file = Column(String(255), nullable=True)  # store file path or filename
+    file = Column(LargeBinary, nullable=True)
+    # file = Column(String(100), nullable=True)
+    file_type = Column(String(100), nullable=True)
+    date_time = Column(DateTime, nullable=False, default=datetime.utcnow)
 
     # Constraint: At least one of content or file must be non-null
     __table_args__ = (

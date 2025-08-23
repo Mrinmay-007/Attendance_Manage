@@ -22,7 +22,7 @@ def get_all_slot(response: Response, db: Session = Depends(get_db)):
             "id": slot.Sl_id,
             "start": slot.start,
             "end": slot.end,
-            "day": slot.day,
+            # "day": slot.day,
             "sl_name": slot.sl_name
         })
     total = len(result)
@@ -38,7 +38,7 @@ def create_slot(slot: schemas.Slot, db: Session = Depends(get_db)):
         
         start=slot.start,
         end=slot.end,
-        day=slot.day,
+        # day=slot.day,
         sl_name=slot.sl_name
     )
     db.add(new_slot)
@@ -48,7 +48,7 @@ def create_slot(slot: schemas.Slot, db: Session = Depends(get_db)):
         "id": new_slot.Sl_id,
         "start": new_slot.start,
         "end": new_slot.end,
-        "day": new_slot.day,
+        # "day": new_slot.day,
         "sl_name": new_slot.sl_name
     }
     
@@ -71,7 +71,7 @@ def edit_slot(sl_id: int, updated: schemas.Slot, db: Session = Depends(get_db)):
     
     slot.start = updated.start #type: ignore
     slot.end = updated.end #type: ignore
-    slot.day = updated.day #type: ignore
+    # slot.day = updated.day #type: ignore
     slot.sl_name = updated.sl_name #type: ignore
 
     db.commit()
@@ -79,7 +79,7 @@ def edit_slot(sl_id: int, updated: schemas.Slot, db: Session = Depends(get_db)):
         "id": slot.Sl_id,
         "start": slot.start,
         "end": slot.end,
-        "day": slot.day,
+        # "day": slot.day,
         "sl_name": slot.sl_name
     }
     
@@ -93,6 +93,6 @@ def get_slot(sl_id: int, db: Session = Depends(get_db)):
         "id": slot.Sl_id,
         "start": slot.start,
         "end": slot.end,
-        "day": slot.day,
+        # "day": slot.day,
         "sl_name": slot.sl_name
     }

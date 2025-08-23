@@ -11,6 +11,30 @@ from urllib.parse import unquote
 router = APIRouter()
 
 
+@router.get("/student-details/{email}")
+async def get_student_details(email: str, db: Session = Depends(get_db)):
+    # Fetch student by email
+    st = db.query(models.Student).filter(models.Student.email == email).first()
+    if not st:
+        raise HTTPException(status_code=404, detail="Student not found")
+    
+    # Fetch department using Did from student
+    dept = db.query(models.Department).filter(models.Department.Did == st.Did).first()
+    if not dept:
+        raise HTTPException(status_code=404, detail="Department not found")
+    
+    return {
+        "id": st.Sid,
+        "name": st.name,
+        "email": st.email,
+        "dep": dept.dep,
+        "u_roll": st.u_roll,
+        "c_roll": st.c_roll,
+        "year": st.year,
+        "sem": st.sem,
+        # "role": dept.role  # <-- double-check if this should be st.role instead
+    }
+
 @router.get("/attendance_history/{email}")
 def attn_hist(email: str, db: Session = Depends(get_db)):
     results = (
@@ -47,13 +71,14 @@ def attn_hist(email: str, db: Session = Depends(get_db)):
     ]
 
 
-
-
-
-
-
-    
-    
+@router.get("/admin_details/{email}")
+async def admin_details(email: str, db: Session = Depends(get_db)):
+    dept = db.query(models.Department).filter(models.Department.role == "Admin").first() 
+    admin = db.query(models.Teacher).filter(models.Teacher.email == email ,
+                                            models.Teacher.Did == dept.Did).first() #type: ignore
+    if not admin:
+        raise HTTPException(status_code=404, detail="Admin not found")
+    return admin
 
 
 @router.get("/teacher_details/{email}")
@@ -101,7 +126,7 @@ def calculate_attendance(email: str, response: Response, db: Session = Depends(g
     student = db.query(Student).filter(Student.email == email).first()
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
-
+    dept = db.query(Department).filter(Department.Did == student.Did).first()
     # 2️⃣ Get subjects for the student's department, year, and semester
     subjects = (
         db.query(Subject)
@@ -156,6 +181,7 @@ def calculate_attendance(email: str, response: Response, db: Session = Depends(g
         "student": {
             "name": student.name,
             "email": student.email,
+            "dep":dept.dep, #type:ignore
             "u_roll": student.u_roll,
             "c_roll":student.c_roll,
             "year": student.year,
@@ -260,7 +286,8 @@ def get_student_list(did:int,sem:int, response: Response, db: Session = Depends(
         
 @router.get("/teacher_list")
 def get_teacher_list(response: Response, db: Session = Depends(get_db)):
-    teachers = db.query(models.Teacher).filter(models.Department.role == "Teacher").all()
+    dept =db.query(models.Department). filter(models.Department.role == "Teacher").first()
+    teachers = db.query(models.Teacher).filter(models.Teacher.Did == dept.Did).all() #type:ignore
     result = []
     for tch in teachers:
         result.append({
@@ -318,3 +345,75 @@ def get_subject_list(response: Response, db: Session = Depends(get_db)):
     return result
 
 
+
+@router.get("/get_subject/{sem},{dep}")
+def filter_subject( sem: int, dep: str, db: Session = Depends(get_db)):
+    # 1️⃣ Get department by name
+    dept = db.query(models.Department).filter(models.Department.dep == dep).first()
+    if not dept:
+        raise HTTPException(status_code=404, detail="Department not found")
+    
+    # 2️⃣ Filter subjects by Did, year, and sem
+    subjects = db.query(models.Subject).filter(
+
+        models.Subject.sem == sem,
+        models.Subject.Did == dept.Did
+    ).all()
+    
+    if not subjects:
+        raise HTTPException(status_code=404, detail="No subjects found")
+
+    # 3️⃣ Return "label" for dropdown display
+    result = [
+        {
+            "id": sub.Sub_id,  # used as value in <SelectInput>
+            "label": f"{sub.sub_name} ({sub.sub_code})"  # shown in dropdown
+        }
+        for sub in subjects
+    ]
+
+
+    return result
+
+
+    
+@router.get("/available_teacher/{sub_id}")
+def available_teacher(sub_id: int, db: Session = Depends(get_db)):
+
+    # 1. Get all teacher-subject mappings for this subject
+    sub_tch_list = db.query(models.SubjectTeacher).filter(
+        models.SubjectTeacher.Sub_id == sub_id
+    ).all()
+
+    # Extract all STids for this subject
+    st_ids = [st.STid for st in sub_tch_list]
+
+    if not st_ids:
+        return {"available_teachers": []}
+
+    # 2. Get all STids already in routine (busy teachers)
+    busy_st_ids = db.query(models.Routine.STid).filter(
+        models.Routine.STid.in_(st_ids)
+    ).all()
+    busy_st_ids = [r[0] for r in busy_st_ids]  # unpack from tuples
+
+    # 3. Filter only available STids
+    available_st = [st for st in sub_tch_list if st.STid not in busy_st_ids]
+
+    # 4. Map available SubjectTeacher with Teacher details
+    available_teachers = []
+    for st in available_st:
+        teacher = db.query(models.Teacher).filter(models.Teacher.Tid == st.Tid).first()
+        if teacher:
+            available_teachers.append({
+                "STid": st.STid,
+                "Sub_id": st.Sub_id,
+                "Tid": teacher.Tid,
+                "name": teacher.name,
+                "email": teacher.email,
+                "name_code": teacher.name_code,
+                "department": teacher.Did
+            })
+
+    # return {"available_teachers": available_teachers}
+    return available_teachers 

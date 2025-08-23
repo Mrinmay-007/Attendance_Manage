@@ -23,6 +23,7 @@ default_pw = data.get("student_password")
 # ==========================
 
 
+
 @router.post("/", status_code=status.HTTP_201_CREATED)
 async def create_student(st: schemas.Student, db: Session = Depends(get_db)):
     dept = db.query(models.Department).filter(
@@ -163,3 +164,30 @@ async def get_student(id: int, db: Session = Depends(get_db)):
             "sem" : st.sem,
             "role" :dept.role
     }
+
+
+# @router.get("/{email}")
+# async def get_student_details(email: str, db: Session = Depends(get_db)):
+#     st = db.query(models.Student).filter(models.Student.email == email).first()
+#     dept = db.query(models.Department).filter( models.Department.Did == st.Did).first() #type: ignore
+#     if not st:
+#         raise HTTPException(status_code=404, detail="Student not found")
+    
+#     # Fetch department based on Did foreign key
+#     dept = db.query(models.Department).filter(models.Department.Did == st.Did).first()
+#     if not dept:
+#         raise HTTPException(status_code=404, detail="Department not found")
+    
+#     return {
+#             "id" :st.Sid,
+#             "name": st.name,
+#             "email" : st.email,
+#             "dep": dept.dep,
+#             "u_roll" :st.u_roll,
+#             "c_roll" : st.c_roll,
+#             "year" :st.year,
+#             "sem" : st.sem,
+#             "role" :dept.role
+#     }
+
+

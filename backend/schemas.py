@@ -1,6 +1,6 @@
 # schemas.py
 
-from pydantic import BaseModel,StrictStr, validator
+from pydantic import BaseModel,StrictStr, validator,root_validator
 from typing import List, Optional
 from datetime import date,time
 
@@ -90,7 +90,7 @@ class Slot(BaseModel):
     Sl_id: Optional[int]
     start: time
     end: time
-    day: str
+    # day: str
     sl_name: str
 
     class Config:
@@ -100,6 +100,48 @@ class Slot(BaseModel):
     #  
 
 
+class Routine (BaseModel):
+    STid: int
+    Sl_id: int
+    Did: Optional[int]
+    dep :str
+    day :str
+
+
+
+class Notice(BaseModel):
+    N_id: Optional[int]
+    Tid: Optional[int]
+    Did : Optional[int]
+    content: Optional[str]=None
+    file : Optional[str]=None
+    file_type : Optional[str]=None
+    email: str
+    # dep :str
+
+    class Config:
+        orm_mode = True
+        
+    @root_validator
+    def check_content_or_file(cls, values):
+        content, file = values.get("content"), values.get("file")
+        if not content and not file:
+            raise ValueError("Either content or file must be provided")
+        return values
+
+
+
+# class NoticeOut(BaseModel):
+#     N_id: int
+#     Tid: int
+#     Did: int
+#     content: Optional[str]
+#     file: Optional[str]
+
+#     class Config:
+#         orm_mode = True
+
+# class EditNotice(BaseModel)
 # ===============..... Done .....====================
 
 class Attendance(BaseModel):
@@ -147,6 +189,7 @@ class Token(BaseModel):
 class ResetPwRequest(BaseModel):
     old_pw: str
     new_pw: str
+    
 # ===============..... Done .....====================
 
 
