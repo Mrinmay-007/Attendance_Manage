@@ -1,23 +1,13 @@
 
 
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+
 const API_BASE = import.meta.env.VITE_API_URL;
-import {
-  Container,
-  Box,
-  Typography,
-  TextField,
-  Button,
-  MenuItem,
-  CircularProgress,
-  Alert,
-  Paper,
-  IconButton,
-  InputAdornment
-} from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+
+// Logo Component
+import Logo from "../components/logo";
 
 export default function Login() {
   const [role, setRole] = useState("");
@@ -29,6 +19,7 @@ export default function Login() {
 
   const navigate = useNavigate();
 
+  // Validate Form
   const validateForm = () => {
     if (!role) {
       setError("Please select a role");
@@ -41,6 +32,7 @@ export default function Login() {
     return true;
   };
 
+  // Handle Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
@@ -64,9 +56,7 @@ export default function Login() {
     try {
       const response = await fetch(endpoint, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: formDetails,
       });
 
@@ -91,94 +81,106 @@ export default function Login() {
     }
   };
 
-
-
   return (
-    <Container maxWidth="xs" sx={{ mt: 8 }}>
-      <Paper elevation={4} sx={{ p: 4, borderRadius: 3 }}>
-     
-        <Typography
-          variant="h5"
-          align="center"
-          gutterBottom
-          sx={{ fontWeight: "bold" }}
+    <div className="min-h-screen bg-[#2E373E] flex flex-col md:flex-row">
+      {/* Left Side - Logo */}
+      <div className="flex items-center justify-center w-full md:w-1/2 p-6">
+        <Logo />
+      </div>
+  {/* Divider Line */}
+    <div className="hidden md:flex items-center">
+  <div className="h-120 w-px bg-gray-600"></div>
+</div>
+
+      {/* Right Side - Form */}
+      <div className="flex items-center justify-center w-full md:w-1/2 p-6">
+        <form
+          onSubmit={handleSubmit}
+          className="w-full max-w-sm bg-[#3C4750] p-6 rounded-xl shadow-md"
         >
-          Login
-        </Typography>
+          {error && (
+            <div className="mb-4 p-3 text-white bg-red-700 rounded">
+              {error}
+            </div>
+          )}
 
-        {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
-            {error}
-          </Alert>
-        )}
-
-        <Box component="form" onSubmit={handleSubmit} noValidate>
-          {/* Role Selector */}
-          <TextField
-            select
-            fullWidth
-            label="Role"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            margin="normal"
-            required
-          >
-            <MenuItem value="">-- Select Role --</MenuItem>
-            <MenuItem value="Student">Student</MenuItem>
-            <MenuItem value="Teacher">Teacher</MenuItem>
-            <MenuItem value="Admin">Admin</MenuItem>
-          </TextField>
+          {/* Role Select */}
+          <div className="mb-4">
+            <label className="block text-gray-300 mb-2">Role</label>
+            <select
+              value={role}
+             
+              onChange={(e) => setRole(e.target.value)}
+              required
+              className="w-full px-3 py-2 bg-[#2E373E] text-white rounded focus:ring-2 focus:ring-[#65D6A4] outline-none"
+            >
+              <option value="" className="text-gray-400">Select a role</option>
+              <option value="Student">Student</option>
+              <option value="Teacher">Teacher</option>
+              <option value="Admin">Admin</option>
+            </select>
+          </div>
 
           {/* Username */}
-          <TextField
-            fullWidth
-            label="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            margin="normal"
-            required
-          />
+          <div className="mb-4">
+            <label className="block text-gray-300 mb-2">Username</label>
+            <input
+              type="text"
+              placeholder="Email *"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              autoComplete="username"
+              className="w-full px-3 py-2 bg-[#2E373E] text-white rounded focus:ring-2 focus:ring-[#65D6A4] outline-none"
+            />
+          </div>
 
-          {/* Password with Eye Button */}
-          <TextField
-            fullWidth
-            label="Password"
-            type={showPassword ? "text" : "password"}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            margin="normal"
-            required
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() => setShowPassword((prev) => !prev)}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-
-          />
+          {/* Password */}
+          <div className="mb-4 relative">
+            <label className="block text-gray-300 mb-2">Password</label>
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password *"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              autoComplete="current-password"
+              className="w-full px-3 py-2 bg-[#2E373E] text-white rounded focus:ring-2 focus:ring-[#65D6A4] outline-none"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute right-3 top-9 text-gray-400"
+            >
+              {showPassword ? (
+                <EyeSlashIcon className="w-5 h-5" />
+              ) : (
+                <EyeIcon className="w-5 h-5" />
+              )}
+            </button>
+          </div>
 
           {/* Submit Button */}
-          <Button
+          <button
             type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            sx={{ mt: 3, py: 1.2, fontWeight: "bold" }}
             disabled={loading}
+            className="w-full bg-[#65D6A4] text-[#2E373E] py-2 rounded font-bold hover:bg-[#55b88c] transition"
           >
-            {loading ? <CircularProgress size={24} color="inherit" /> : "Login"}
-          </Button>
-        </Box>
-      </Paper>
-      
-      <p>Keep patience ... it may take time to load</p>
+            {loading ? "Loading..." : "CONNECT"}
+          </button>
 
-    </Container>
+          {/* Links */}
+          <div className="flex justify-center items-center mt-4 text-gray-400 text-sm">
+            <a href="#" className="hover:underline">
+              Forgot your password
+            </a>
+            <span className="mx-2">-</span>
+            <a href="#" className="hover:underline">
+              Question?
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }
