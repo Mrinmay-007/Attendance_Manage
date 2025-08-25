@@ -44,7 +44,7 @@ const Logo = () => {
       {/* Typing Effect */}
       <ReactTyped
         strings={[
-          "Welcome to College Attendance System",
+          "Welcome to Attendance System",
           "Stay Connected",
           "Track Your Attendance",
         ]}
