@@ -52,21 +52,24 @@ export default function RoutineBuilder() {
     }
   }, [selectedDept, selectedSem]);
 
-  // Fetch teachers
-  useEffect(() => {
-    if (subjectId) {
-      apiFetch(`/available_teacher/${subjectId}`)
-        .then((data) => setTeachers(data))
-        .catch((err) => console.error(err));
-    } else {
-      setTeachers([]);
-    }
-  }, [subjectId]);
 
-  // Fetch routine
+// Fetch teachers
+useEffect(() => {
+  if (subjectId && slotId && day) {
+    apiFetch(`/available_teacher/${subjectId}?slot=${slotId}&day=${day}`)
+      .then((data) => setTeachers(data))
+      .catch((err) => console.error(err));
+  } else {
+    setTeachers([]);
+  }
+}, [subjectId, slotId, day]);
+
+
+//   Fetch routine
   const fetchRoutine = () => {
      if (selectedDept && selectedSem) {
         setIsLoading(true);
+        setError(null);   // reset error on every new fetch
         apiFetch(`/routine/${selectedDept},${selectedSem}`)
             .then((data) => {
                 setRoutine(data);
@@ -85,6 +88,8 @@ export default function RoutineBuilder() {
   useEffect(() => {
     fetchRoutine();
   }, [selectedDept, selectedSem]);
+
+
 
   // Submit handler
   const handleSubmit = async () => {
@@ -171,7 +176,7 @@ export default function RoutineBuilder() {
                     {isLoading ? (
                         <tr><td colSpan={slot.length + 1} className="text-center py-16 text-gray-500">Loading routine...</td></tr>
                     ) : error ? (
-                        <tr><td colSpan={slot.length + 1} className="text-center py-16 text-red-500">{error}</td></tr>
+                        <tr><td colSpan={slot.length + 1} className="text-center py-16 text-red-500">No routine found</td></tr>
                     ) : (
                         days.map((dayName, i) => (
                             <tr key={dayName} className="hover:bg-indigo-50 transition-colors duration-200">
