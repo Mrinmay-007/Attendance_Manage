@@ -38,7 +38,7 @@ const Logo = () => {
       <img
         src={logo}
         alt="Logo"
-        className="h-32 md:w-80 md:h-52 drop-shadow-xl"
+        className="h-40 md:w-80 md:h-52 drop-shadow-xl"
       />
 
       {/* Typing Effect */}
