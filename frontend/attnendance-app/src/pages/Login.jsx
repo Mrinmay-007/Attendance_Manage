@@ -82,12 +82,7 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-[#2d3337] flex flex-col md:flex-row">
       {/* Left Side - Logo */}
-      {/* <div className="flex items-center justify-center w-full md:w-1/2 p-6"> */}
-      {/* <Logo /> */}
-      {/* <img src={logo2} alt="Logo" className="h-12" />
-        <span className="ml-3 text-7xl font-light text-[#f1f3f2]">attend</span>
-        <span className=" text-7xl font-semibold text-[#65D6A4]">X</span>
-      </div> */}
+
       <div className="flex flex-col items-center justify-center w-full md:w-1/2 p-6 relative">
         <div className="flex items-center space-x-3 transform hover:scale-105 transition duration-300">
           <img
@@ -193,12 +188,22 @@ export default function Login() {
 
           {/* Links */}
           <div className="flex justify-center items-center mt-4 text-gray-400 text-sm">
-            <a href="#" className="hover:underline">
-              Forgot your password
+            <a
+              href="/manual"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline"
+            >
+              See Manual
             </a>
             <span className="mx-2">-</span>
-            <a href="#" className="hover:underline">
-              Question?
+            <a
+              href="/feedback"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline"
+            >
+              Feedback or Questions?
             </a>
           </div>
         </form>
