@@ -1,5 +1,4 @@
 
-
 import { useEffect, useState } from "react";
 import { apiFetch } from "../api";
 
@@ -7,13 +6,12 @@ export default function NoticeBoard() {
   const [notice, setNotice] = useState([]);
   const email = localStorage.getItem("email");
 
+const API_BASE = import.meta.env.VITE_API_URL;
   useEffect(() => {
     apiFetch(`/notice/${email}`)
       .then((data) => setNotice(data))
       .catch((err) => console.error(err));
   }, []);
-
-  
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
@@ -35,18 +33,21 @@ export default function NoticeBoard() {
               key={index}
               className="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-6 border border-gray-200"
             >
-              <div className="text-lg font-semibold text-gray-800 mb-2">
-                {data.content}
-              </div>
-              {data.file && (
-              <a
-                    href={`http://localhost:8000/notice/download/${data.id}`}
-                    className="text-indigo-600 hover:underline text-sm"
-                    >
-                    📥 Download File
-                    </a>
+              {/* Render HTML content instead of plain text */}
+              <div
+                className="text-gray-800 prose max-w-none"
+                dangerouslySetInnerHTML={{ __html: data.content }}
+              />
 
+              {data.file && (
+                <a
+                  href={`${API_BASE}/notice/download/${data.id}`}
+                  className="inline-block mt-3 text-indigo-600 hover:underline text-sm"
+                >
+                  📥 Download File
+                </a>
               )}
+
               <p className="text-gray-500 text-xs mt-3">Notice ID: {data.id}</p>
             </div>
           ))
